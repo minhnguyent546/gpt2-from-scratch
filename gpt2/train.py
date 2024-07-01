@@ -155,10 +155,10 @@ def train_model(config: dict[str, Any]):
         train_iter = tqdm(range(initial_step, train_steps), desc='Training model')
 
     batch_loss = 0.0
+    batch_idx = 0
     global_step = initial_step
     while global_step < train_steps:
         torch.cuda.empty_cache()
-        batch_idx = 0
 
         input_ids, labels = get_batch(
             train_data,
@@ -234,8 +234,8 @@ def train_model(config: dict[str, Any]):
 
             global_step += 1
             train_iter.update()
-            if global_step >= train_steps:
-                break
+
+        batch_idx += 1
 
 def main():
     parser = argparse.ArgumentParser(

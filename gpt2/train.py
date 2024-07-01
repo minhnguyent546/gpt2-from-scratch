@@ -36,7 +36,7 @@ def train_model(config: dict[str, Any]):
     # datasets, distributed samplers, and data loaders
     train_data = np.memmap(config['train_data'], mode='r', dtype=np.uint16)
     validation_data = np.memmap(config['validation_data'], mode='r', dtype=np.uint16)
-    train_dataset = MonolingualDataset(train_data, config['seq_length'], tokenizer)
+    train_dataset = MonolingualDataset(train_data, config['seq_length'], tokenizer, random_item=False)
     validation_dataset = MonolingualDataset(validation_data, config['seq_length'], tokenizer, random_item=False)
     if config['ddp']:
         train_sampler = DistributedSampler(train_dataset, shuffle=False, seed=config['seed'])
@@ -50,7 +50,6 @@ def train_model(config: dict[str, Any]):
         shuffle=False,
         sampler=train_sampler,
         num_workers=config['num_workers'],
-        pin_memory=True,
     )
     validation_data_loader = DataLoader(
         validation_dataset,
@@ -58,7 +57,6 @@ def train_model(config: dict[str, Any]):
         shuffle=False,
         sampler=validation_sampler,
         num_workers=config['num_workers'],
-        pin_memory=True,
     )
 
     # logging with wandb

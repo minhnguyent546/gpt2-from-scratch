@@ -265,8 +265,8 @@ def get_batch(
     device: torch.device | None = None,
 ) -> Tuple[Tensor, Tensor]:
     indices = torch.randint(high=len(data_ids) - seq_length, size=(batch_size,))
-    input_ids = torch.stack([torch.from_numpy(data_ids[idx:idx+seq_length].copy()).type(torch.int32) for idx in indices])
-    labels = torch.stack([torch.from_numpy(data_ids[idx+1:idx+1+seq_length].copy()).type(torch.int64) for idx in indices])
+    input_ids = torch.stack([torch.from_numpy(data_ids[idx:idx+seq_length].copy().astype(np.int32)) for idx in indices])
+    labels = torch.stack([torch.from_numpy(data_ids[idx+1:idx+1+seq_length].copy().astype(np.int64)) for idx in indices])
     if device is not None:
         input_ids = input_ids.to(device)
         labels = labels.to(device)

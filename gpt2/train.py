@@ -39,7 +39,7 @@ def train_model(config: dict[str, Any]):
     train_dataset = MonolingualDataset(train_data, config['seq_length'], tokenizer)
     validation_dataset = MonolingualDataset(validation_data, config['seq_length'], tokenizer, random_item=False)
     if config['ddp']:
-        train_sampler = DistributedSampler(train_dataset, shuffle=True, seed=config['seed'])
+        train_sampler = DistributedSampler(train_dataset, shuffle=False, seed=config['seed'])
         validation_sampler = DistributedSampler(validation_dataset, shuffle=False, seed=config['seed'], drop_last=True)
     else:
         train_sampler = None
@@ -47,7 +47,7 @@ def train_model(config: dict[str, Any]):
     train_data_loader = DataLoader(
         train_dataset,
         batch_size=config['train_batch_size'],
-        shuffle=(train_sampler is None),
+        shuffle=False,
         sampler=train_sampler,
         num_workers=config['num_workers'],
         pin_memory=True,

@@ -20,6 +20,7 @@ class MonolingualDataset(Dataset):
         self.tokenizer = tokenizer
         self.random_item = random_item
         self.data_length = len(self.data)
+        print(f"{self.data_length = }")
 
     def __len__(self) -> int:
         return self.data_length - self.seq_length

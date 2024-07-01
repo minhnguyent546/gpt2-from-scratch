@@ -29,6 +29,6 @@ class MonolingualDataset(Dataset):
         if self.random_item:
             idx = np.random.randint(0, len(self))
         return {
-            'input_ids': self.data[idx:idx+self.seq_length].copy(),
-            'labels': self.data[idx+1:idx+1+self.seq_length].copy(),
+            'input_ids': self.data[idx:idx+self.seq_length].astype(np.int32).copy(),
+            'labels': self.data[idx+1:idx+1+self.seq_length].astype(np.int64).copy(),
         }

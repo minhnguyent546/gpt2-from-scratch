@@ -32,8 +32,8 @@ def train_model(config: dict[str, Any]):
     config['vocab_size'] = tokenizer.get_vocab_size()
 
     # train and validation data
-    train_data = np.memmap(config['train_data'], mode='r', dtype=np.uint16)
-    validation_data = np.memmap(config['validation_data'], mode='r', dtype=np.uint16)
+    train_data = np.fromfile(config['train_data'], dtype=np.uint16)
+    validation_data = np.fromfile(config['validation_data'], dtype=np.uint16)
 
     # logging with wandb
     wandb_run = None
